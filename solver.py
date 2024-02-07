@@ -80,5 +80,5 @@ def solve_sudoku(puzzle_string):
         print("No solution exists or invalid puzzle.")
 
 
-# puzzle_string = "123456789000123000000000123000000000000000000000000000000000000000000000000000000"
-# solve_sudoku(puzzle_string)
+puzzle_string = "001700509573024106800501002700295018009400305652800007465080071000159004908007053"
+solve_sudoku(puzzle_string)
