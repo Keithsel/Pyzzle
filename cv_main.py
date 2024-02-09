@@ -44,13 +44,13 @@ def solve_sudoku_puzzle(args):
 
     # Create an instance of SudokuSolver and try to solve the puzzle
     sudoku_string = ''.join(''.join(map(str, row)) for row in grid_array)
-    print(sudoku_string)
+    return sudoku_string
 
 if __name__ == "__main__":
     # Construct an argument parser and parse the arguments
     ap = argparse.ArgumentParser()
-    ap.add_argument("--img_fpath", default="data/sudoku_images/27.jpg", type=str, help="Path to sudoku image file")
-    ap.add_argument("--model_fpath", default="models\model_07_02_2024_23_39_54.keras", type=str, help="Path to saved Keras CNN model")
+    ap.add_argument("--img_fpath", default="sudoku_images\8.jpg", type=str, help="Path to sudoku image file")
+    ap.add_argument("--model_fpath", default="models\model.keras", type=str, help="Path to saved Keras CNN model")
     args = vars(ap.parse_args())
 
     solve_sudoku_puzzle(args)
