@@ -1,3 +1,4 @@
+import time
 class SudokuSolver:
     def __init__(self, board):
         self.board = [[0] * 9 for _ in range(9)]
@@ -54,13 +55,12 @@ class SudokuSolver:
     def solve(self):
         if not self.valid:
             return False  # Invalid board configuration
+
         row, col = self.find_empty_cell()
         if row == -1:  # No empty cell found, puzzle solved
             return True
 
-        block_index = (row // 3) * 3 + col // 3
-        for num in range(1, 10):
-            if self.is_safe(num, row, col):
+        for num in sorted(self.rows[row] & self.columns[col] & self.blocks[(row // 3) * 3 + col // 3]):
                 self.place_number(num, row, col)
                 if self.solve():
                     return True
@@ -80,5 +80,9 @@ def solve_sudoku(puzzle_string):
         print("No solution exists or invalid puzzle.")
 
 
-puzzle_string = "001700509573024106800501002700295018009400305652800007465080071000159004908007053"
+start = time.time()
+puzzle_string = "700000400020070080003008009000500300060020090001007006000300900030040060009001035"
 solve_sudoku(puzzle_string)
+end = time.time()
+
+print(f"Execution time: {end - start:.5f} seconds.")
