@@ -55,13 +55,12 @@ class SudokuSolver:
     def solve(self):
         if not self.valid:
             return False  # Invalid board configuration
+
         row, col = self.find_empty_cell()
         if row == -1:  # No empty cell found, puzzle solved
             return True
 
-        block_index = (row // 3) * 3 + col // 3
-        for num in range(1, 10):
-            if self.is_safe(num, row, col):
+        for num in sorted(self.rows[row] & self.columns[col] & self.blocks[(row // 3) * 3 + col // 3]):
                 self.place_number(num, row, col)
                 if self.solve():
                     return True
