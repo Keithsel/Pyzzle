@@ -1,4 +1,5 @@
 import time
+from cv_main import *
 class SudokuSolver:
     def __init__(self, board):
         self.board = [[0] * 9 for _ in range(9)]
@@ -81,8 +82,15 @@ def solve_sudoku(puzzle_string):
 
 
 start = time.time()
-puzzle_string = "700000400020070080003008009000500300060020090001007006000300900030040060009001035"
-solve_sudoku(puzzle_string)
-end = time.time()
-
-print(f"Execution time: {end - start:.5f} seconds.")
+if __name__ == "__main__":
+    start = time.time()
+    # Construct an argument parser and parse the arguments
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--img_fpath", default="sudoku_images\8.jpg", type=str, help="Path to sudoku image file")
+    ap.add_argument("--model_fpath", default="models\model.keras", type=str, help="Path to saved Keras CNN model")
+    args = vars(ap.parse_args())
+    sudoku_string = solve_sudoku_puzzle(args)
+    solve_sudoku(sudoku_string)
+    end = time.time()
+    print(f"Execution time: {end - start:.5f} seconds.")
+    plt.show()
