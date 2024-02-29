@@ -1,4 +1,4 @@
-# Rubix Solver 
+# Rubix 
 
 ## Running up of Game 
 
