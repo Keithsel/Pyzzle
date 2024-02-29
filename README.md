@@ -1,4 +1,4 @@
-# Rubix 
+# Rubik 
 
 ## Running up of Game 
 
