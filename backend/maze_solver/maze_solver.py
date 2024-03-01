@@ -16,10 +16,11 @@ class Point(object):
     def __add__(self, other):
         return Point(self.x + other.x, self.y + other.y)
 
+    #Check is two point is same or not
     def __eq__(self, other):
         if self.x == other.x and self.y == other.y:
             return True
-        else:
+        else: 
             return False
     pass
 
@@ -28,19 +29,19 @@ def onMouse(event, x, y, flags, params):
 
     global col, start, end, point_count
     s = 2
-    if event == cv.EVENT_LBUTTONUP:
+    if event == cv.EVENT_LBUTTONUP: #When left mouse is not press
         if point_count == 0:
             col = cv.rectangle(col, (x-s, y-s), (x+s, y+s), color=(0, 0, 255), thickness= -1)
             start = Point(x, y)
             print(f'start: {start.x}, {start.y}')
             point_count += 1
-            pass
+            # pass
         elif point_count == 1:
             col = cv.rectangle(col, (x - s, y - s), (x + s, y + s), color=(255, 255, 0), thickness=-1)
             end = Point(x, y)
             print(f'end: {end.x}, {end.y}')
             point_count += 1
-            pass
+            # pass
 
 
 def bfs(st, en):
@@ -127,7 +128,7 @@ def sorter(queue, en):
 
 
 root = Tk()
-root.withdraw()
+# root.withdraw()
 file_path = 'maze_images\maze01.jpg'
 try:
     point_count = 0
