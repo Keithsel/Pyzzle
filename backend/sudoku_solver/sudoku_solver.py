@@ -110,15 +110,15 @@ def solve_sudoku(puzzle_string):
 # end = time.time()
 # print(f"Time taken: {end - start:.5f} seconds")
         
-# if __name__ == "__main__":
-#     start = time.time()
-#     # Construct an argument parser and parse the arguments
-#     ap = argparse.ArgumentParser()
-#     ap.add_argument("--img_fpath", default="puzzles\sudoku_images\8.jpg", type=str, help="Path to sudoku image file")
-#     ap.add_argument("--model_fpath", default="backend\sudoku_solver\models\model.keras", type=str, help="Path to saved Keras CNN model")
-#     args = vars(ap.parse_args())
-#     sudoku_string = solve_sudoku_puzzle(args)
-#     solve_sudoku(sudoku_string)
-#     end = time.time()
-#     print(f"Execution time: {end - start:.5f} seconds.")
-#     plt.show()
+if __name__ == "__main__":
+    start = time.time()
+    # Construct an argument parser and parse the arguments
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--img_fpath", default="puzzles\sudoku_images\8.jpg", type=str, help="Path to sudoku image file")
+    ap.add_argument("--model_fpath", default="backend\sudoku_solver\models\model.keras", type=str, help="Path to saved Keras CNN model")
+    args = vars(ap.parse_args())
+    sudoku_string = solve_sudoku_puzzle(args)
+    solve_sudoku(sudoku_string)
+    end = time.time()
+    print(f"Execution time: {end - start:.5f} seconds.")
+    plt.show()
