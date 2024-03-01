@@ -1,6 +1,8 @@
 from nicegui import ui
 from sudoku_solver.cv_main import detect_sudoku_board
 from sudoku_solver import solve_sudoku
+import sys
+sys.path.append('backend/sudoku_solver/sudoku_utils')
 
 def handle_upload(file_info):
     file_path = file_info['path']
