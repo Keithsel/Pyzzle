@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 import argparse
 
-import sudoku_utils as sutils
+import backend.sudoku_solver.sudoku_utils as sutils
 
 def sudoku_to_string(sudoku):
     result = ""

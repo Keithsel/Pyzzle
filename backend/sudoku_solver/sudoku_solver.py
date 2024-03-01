@@ -73,6 +73,9 @@ class SudokuSolver:
         for row in self.board:
             print(" ".join(str(num) if num != 0 else '.' for num in row))
 
+    def convert_board_to_string(self):
+        return ''.join(''.join(map(str, row)) for row in self.board)
+
 def solve_sudoku(puzzle_string):
     solver = SudokuSolver(puzzle_string)
     if solver.solve():
