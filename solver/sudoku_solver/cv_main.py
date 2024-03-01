@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 import argparse
-
+import sys
+sys.path.append('solver/sudoku_solver/sudoku_utils')
 import sudoku_utils as sutils
 
 def sudoku_to_string(sudoku):
@@ -13,7 +14,7 @@ def sudoku_to_string(sudoku):
         result += sudoku[i]
     return result
 
-def solve_sudoku_puzzle(args):
+def detect_sudoku_board(args):
     img_fpath = args['img_fpath']
     model_fpath = args['model_fpath']
     
@@ -49,9 +50,9 @@ def solve_sudoku_puzzle(args):
 if __name__ == "__main__":
     # Construct an argument parser and parse the arguments
     ap = argparse.ArgumentParser()
-    ap.add_argument("--img_fpath", default="sudoku_images\8.jpg", type=str, help="Path to sudoku image file")
-    ap.add_argument("--model_fpath", default="models\model.keras", type=str, help="Path to saved Keras CNN model")
+    ap.add_argument("--img_fpath", default="puzzles/sudoku_images/1.jpg", type=str, help="Path to sudoku image file")
+    ap.add_argument("--model_fpath", default="backend/sudoku_solver/models/model.keras", type=str, help="Path to saved Keras CNN model")
     args = vars(ap.parse_args())
 
-    solve_sudoku_puzzle(args)
+    detect_sudoku_board(args)
     plt.show()
