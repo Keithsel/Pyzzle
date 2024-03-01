@@ -45,15 +45,17 @@ def onMouse(event, x, y, flags, params):
 
 
 def bfs(st, en):
-    global col, h, w, directions
-    col_const = 100
-    count = 0
+    global col, h, w, directions #Global variables
+    #Constants
+    col_const = 100 #for coloring cells
+    count = 0 #counter for visualizatioln
+    
+    found = False #flag to indicate if the end point is found
+    queue = [] #queue for bfs
+    visited = [[0 for j in range(w)]for i in range(h)] #visited cells
+    parent = [[Point() for j in range(w)]for i in range(h)] # parent cells for path
 
-    found = False
-    queue = []
-    visited = [[0 for j in range(w)]for i in range(h)]
-    parent = [[Point() for j in range(w)]for i in range(h)]
-
+    #initialize bfs
     queue.append(st)
     visited[st.y][st.x] = 1
 
@@ -74,16 +76,16 @@ def bfs(st, en):
             x = daughter_cell.x
             y = daughter_cell.y
             if daughter_cell.x>0 and daughter_cell.y>0 and daughter_cell.y<h and daughter_cell.x<w:
-                if visited[daughter_cell.y][daughter_cell.x] == 0 and (col[daughter_cell.y][daughter_cell.x][0] != 255 or
+                if visited[daughter_cell.y][daughter_cell.x] == 0 and (col[daughter_cell.y][daughter_cell.x][0] != 255 or #Check this cell is wall or not and is visited?
                     col[daughter_cell.y][daughter_cell.x][1] != 255 or
                     col[daughter_cell.y][daughter_cell.x][2] != 255):
 
                     queue.append(daughter_cell)
-                    visited[y][x] = visited[parent_point.y][parent_point.x] + 1
+                    visited[y][x] = visited[parent_point.y][parent_point.x] + 1 #Mark is visited and calculation path from start to this point
 
                     col[y][x] = list(reversed([255 * i for i in
                         colorsys.hsv_to_rgb(
-                            visited[y][x] / col_const, 100, 100)]))
+                            visited[y][x] / col_const, 0.8, 0.8)]))
                     parent[y][x] = parent_point
 
                     if daughter_cell == en:
@@ -99,15 +101,7 @@ def bfs(st, en):
             point = parent[point.y][point.x]
         path.append(point)
         for p in path:
-            cv.rectangle(col, (p.x-1, p.y-1), (p.x+1, p.y+1), (0, 255, 255, 100), -1)
-
-
-            if(c % 15 == 0):
-                display_image = col.copy()
-                display_image = cv.resize(display_image, (800, 800))
-                cv.imshow('image', display_image)
-                cv.waitKey(1)
-            c+=1
+            cv.rectangle(col, (p.x-1, p.y-1), (p.x+1, p.y+1), (0, 255, 0, 100), -1)
         print('found')
         display_image = col.copy()
         display_image = cv.resize(display_image, (800, 800))
@@ -128,33 +122,79 @@ def sorter(queue, en):
 
 
 root = Tk()
-# root.withdraw()
-file_path = 'maze_images\maze01.jpg'
-try:
-    point_count = 0
-    start  = Point()
-    end = Point()
-    directions = [Point(0, -1), Point(0, 1), Point(1, 0), Point(-1, 0)]
-    size = 512
-    img = cv.imread(file_path, 0)
-    img = cv.resize(img, (size, size))
-    ret, thresh = cv.threshold(img, 150, 255, cv.THRESH_BINARY_INV)
-    thresh = cv.resize(thresh, (size, size))
-    col = cv.cvtColor(thresh, cv.COLOR_GRAY2BGR)
-    h, w, d = col.shape
+root.withdraw()
 
-    cv.namedWindow('image')
-    cv.setMouseCallback('image', onMouse)
-    while True:
-        cv.imshow('image', col)
-        k = cv.waitKey(100)
-        if point_count == 2:
-            break
-    pass
+response = tkinter.messagebox.askquestion("Upload Image", "Please upload an image of CLOSED MAZE in .jpg or .jpeg or .png format only OR To use default image click on 'No' ")
 
-    # now we have the start and end points
-    bfs(start, end)
-    cv.destroyAllWindows()
+if response=='yes':
 
-except FileNotFoundError as e:
-    tkinter.messagebox.showerror("Error", "Default image not found.")
+    file_path = filedialog.askopenfilename()
+    _, file_extension = os.path.splitext(file_path)
+
+    supported_formats = ['.jpg', '.jpeg', '.png']
+
+
+    try:
+        # Open the image file using the file path
+        if file_extension.lower() not in supported_formats:
+            raise ValueError(f"Error: unsupported file format {file_extension}, supported formats are .jpg and .jpeg and .png")
+
+        point_count = 0 #Count point is choosen
+        start  = Point()
+        end = Point()
+        directions = [Point(0, -1), Point(0, 1), Point(1, 0), Point(-1, 0)] #Implement the way to move in maze (up,down,right,left)
+        size = 512
+        img = cv.imread(file_path, 0)
+        img = cv.resize(img, (size, size))
+        ret, thresh = cv.threshold(img, 150, 255, cv.THRESH_BINARY_INV) #convert image to binary image
+        thresh = cv.resize(thresh, (size, size))
+        col = cv.cvtColor(thresh, cv.COLOR_GRAY2BGR) #conver binary image to brg image because input fo CV require an color image
+        h, w, d = col.shape
+
+        cv.namedWindow('image')
+        cv.setMouseCallback('image', onMouse) #Call onMouse() when mouse have any event
+        while True:
+            cv.imshow('image', col)
+            k = cv.waitKey(100)
+            if point_count == 2:
+                break
+        pass
+
+        # now we have the start and end points
+        bfs(start, end)
+        cv.destroyAllWindows()
+    except ValueError as e:
+        tkinter.messagebox.showerror("Error", e)
+    except FileNotFoundError as e:
+        tkinter.messagebox.showerror("Error", "File not Found")
+
+else:
+    file_path = 'puzzles\maze_images\maze02.png'
+    try:
+        point_count = 0
+        start  = Point()
+        end = Point()
+        directions = [Point(0, -1), Point(0, 1), Point(1, 0), Point(-1, 0)]
+        size = 512
+        img = cv.imread(file_path, 0)
+        img = cv.resize(img, (size, size))
+        ret, thresh = cv.threshold(img, 150, 255, cv.THRESH_BINARY_INV)
+        thresh = cv.resize(thresh, (size, size))
+        col = cv.cvtColor(thresh, cv.COLOR_GRAY2BGR)
+        h, w, d = col.shape
+
+        cv.namedWindow('image')
+        cv.setMouseCallback('image', onMouse)
+        while True:
+            cv.imshow('image', col)
+            k = cv.waitKey(100)
+            if point_count == 2:
+                break
+        pass
+
+        # now we have the start and end points
+        bfs(start, end)
+        cv.destroyAllWindows()
+
+    except FileNotFoundError as e:
+        tkinter.messagebox.showerror("Error", "Default image not found.")
