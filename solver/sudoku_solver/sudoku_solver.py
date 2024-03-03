@@ -1,6 +1,5 @@
 import numpy as np
 import time
-from cv_main import *
 
 class SudokuSolver:
     def __init__(self, board):
@@ -92,33 +91,23 @@ class SudokuSolver:
         return remaining_values
 
     def print_board(self):
-        for row in self.board:
-            print(" ".join(str(num) if num != 0 else "." for num in row))
+        print(self.board)
 
+    def print_string(self):
+        return "".join(str(num) if num != 0 else "." for row in self.board for num in row)
 
 def solve_sudoku(puzzle_string):
     solver = SudokuSolver(puzzle_string)
     if solver.solve():
         solver.print_board()
+        print(solver.print_string())
     else:
         print("No solution exists or invalid puzzle.")
 
-
-# start = time.time()
-# puzzle_string = "700000400020070080003008009000500300060020090001007006000300900030040060009001035"
-# solve_sudoku(puzzle_string)
-# end = time.time()
-# print(f"Time taken: {end - start:.5f} seconds")
-        
 if __name__ == "__main__":
     start = time.time()
-    # Construct an argument parser and parse the arguments
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--img_fpath", default="puzzles/sudoku_images/1.jpg", type=str, help="Path to sudoku image file")
-    ap.add_argument("--model_fpath", default="backend/sudoku_solver/models/model.keras", type=str, help="Path to saved Keras CNN model")
-    args = vars(ap.parse_args())
-    sudoku_string = detect_sudoku_board(args)
-    solve_sudoku(sudoku_string)
+    puzzle_string = "700000400020070080003008009000500300060020090001007006000300900030040060009001035"
+    solve_sudoku(puzzle_string)
     end = time.time()
-    print(f"Execution time: {end - start:.5f} seconds.")
-    plt.show()
+    print(f"Time taken: {end - start:.5f} seconds")
+            

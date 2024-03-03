@@ -5,7 +5,7 @@ import sys
 sys.path.append('solver/sudoku_solver/sudoku_utils')
 import sudoku_utils as sutils
 
-def detect_sudoku_board(img_fpath, model_fpath='solver/sudoku_solver/models/model.keras'):
+def detect_sudoku_board(img_fpath='puzzles/sudoku_images/1.jpg', model_fpath='solver\sudoku_solver\models\model.keras'):
     if not os.path.exists(img_fpath):
         raise FileNotFoundError(f"File not found: '{img_fpath}'")
     
@@ -22,4 +22,7 @@ def detect_sudoku_board(img_fpath, model_fpath='solver/sudoku_solver/models/mode
 
     # Convert the 2D array of the puzzle grid to a string
     sudoku_string = ''.join(''.join(map(str, row)) for row in grid_array)
-    return sudoku_string
+    return grid_array, sudoku_string
+
+if __name__ == "__main__":
+    print(detect_sudoku_board())
