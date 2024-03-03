@@ -91,7 +91,7 @@ class SudokuSolver:
         return remaining_values
 
     def print_board(self):
-        print(self.board)
+        return(self.board)
 
     def print_string(self):
         return "".join(str(num) if num != 0 else "." for row in self.board for num in row)
