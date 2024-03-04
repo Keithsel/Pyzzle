@@ -172,6 +172,16 @@ class MainApp(tk.Tk):
         self.container.pack(side="top", fill="both", expand=True)
         self.frames = {}
 
+        self.geometry('800x500')
+        self.resizable(True, True)
+
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        window_width, window_height = 500, 800
+        position_right = int(screen_width / 2 - window_width / 2)
+        position_down = int(screen_height / 2 - window_height / 2)
+        self.geometry(f"{window_width}x{window_height}+{position_right}+{position_down}") # Center window
+
         # Theme
         sv_ttk.set_theme("dark")
 
